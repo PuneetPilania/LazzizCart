@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+
+{% block body %}
+  <div class="container my-4">
+    <h1>My Awesome Cart Blogs</h1>
+     <div class="row my-4">
+
+
+    {% for blog in all_blog %}
+
+
+    <div class="col-md-6">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{blog.title}}</strong>
+          <h3 class="mb-0">{{blog.head0}}</h3>
+          <div class="mb-1 text-muted">{{blog.pub_date}}</div>
+          <div class="text">{{blog.chead0|slice:"0:50"}}...</div>
+          <a href="/blog/blogPost/{{blog.post_id}}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="/media/{{blog.thumbnail}}" class="bd-placeholder-img" width="200" height="250" ></img>
+
+        </div>
+      </div>
+    </div>
+
+       {% if forloop.counter|divisibleby:2 %}
+     </div><div class="row mb-2">
+    {% endif %}
+
+       {% endfor %}
+
+
+  </div>
+
+</div>
+
+{% endblock %}
+
+
+
+
+
