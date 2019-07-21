@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Product,Contact,Orders,OrderUpdate
 from math import ceil
 import json
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 
 def index(request):
@@ -59,6 +61,12 @@ def tracker(request):
 
     return render(request, 'shop/tracker.html')
 
+
+
+
+
+
+
 def searchMatch(query, item):
     '''return true only if query matches the item'''
     if query in item.description.lower() or query in item.product_name.lower() or query in item.catagory.lower():
@@ -90,6 +98,7 @@ def prodview(request,id):
     product=Product.objects.filter(id=id)
     return render(request,'shop/prodview.html',{'product':product[0]})
 
+@login_required
 def checkout(request):
     if request.method=="POST":
         item_json = request.POST.get('itemsJson', '')
@@ -109,3 +118,5 @@ def checkout(request):
         id = order.order_id
         return render(request, 'shop/cheakout.html', {'thank': thank, 'id': id})
     return render(request,'shop/cheakout.html')
+
+

@@ -29,7 +29,7 @@ class Orders(models.Model):
     order_id=models.AutoField(primary_key=True)
     item_json= models.CharField(max_length=5000)
     amount=models.IntegerField(default=0)
-    name=models.CharField(max_length=50)
+    name=models.CharField(max_length=50,default="")
     email=models.CharField(max_length=50)
     address=models.CharField(max_length=50)
     city=models.CharField(max_length=50)

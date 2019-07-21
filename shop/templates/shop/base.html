@@ -39,6 +39,21 @@
       <li class="nav-item">
         <a class="nav-link" href="/shop/contact/">Contact Us</a>
       </li>
+      <li class="nav-item active">
+        {% if user.is_authenticated %}
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+            </div>
+          </div>
+        {% else %}
+          <a class="nav-link" href="{% url 'users:login' %}">Login & Signup <span class="sr-only">(current)</span></a>
+        {% endif %}
+      </li>
 
 
     </ul>
@@ -54,8 +69,17 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
 </button>
   </div>
 </nav>
+    <div class="container md-8">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
   {% block body %} {% endblock %}
 
+</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"
@@ -150,6 +174,8 @@ $('.divpr').on("click", "button.plus", function() {
 </script>
 
 {% block js %}{% endblock %}
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.3"></script>
 
   </body>
 </html>
