@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Product,Contact,Orders,OrderUpdate
 from math import ceil
 import json
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -100,23 +101,58 @@ def prodview(request,id):
 
 @login_required
 def checkout(request):
-    if request.method=="POST":
-        item_json = request.POST.get('itemsJson', '')
-        name=request.POST.get('name','')
-        amount=request.POST.get('amount','')
-        email=request.POST.get('email','')
-        address=request.POST.get('address1','')+ ' ' +request.POST.get('address2','')
-        city=request.POST.get('city','')
-        state=request.POST.get('state','')
-        zip_code=request.POST.get('zip_code','')
-        phone=request.POST.get('phone','')
-        order=Orders(name=name,email=email,address=address,city=city,state=state,zip_code=zip_code,phone=phone,item_json=item_json,amount=amount)
-        order.save()
-        update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
-        update.save()
-        thank = True
-        id = order.order_id
-        return render(request, 'shop/cheakout.html', {'thank': thank, 'id': id})
-    return render(request,'shop/cheakout.html')
+    if request.user.is_authenticated:
+        name = request.user.get_username()
+
+
+        if request.method=="POST":
+
+            item_json = request.POST.get('itemsJson', '')
+
+            name=request.POST.get('name','')
+            amount=request.POST.get('amount','')
+            email=request.POST.get('email','')
+            address=request.POST.get('address1','')+ ' ' +request.POST.get('address2','')
+            city=request.POST.get('city','')
+            state=request.POST.get('state','')
+            zip_code=request.POST.get('zip_code','')
+            phone=request.POST.get('phone','')
+
+            order=Orders(name=name,email=email,address=address,city=city,state=state,zip_code=zip_code,phone=phone,item_json=item_json,amount=amount)
+            order.save()
+            update = OrderUpdate(order_id=order.order_id, update_desc="The order has been placed")
+            update.save()
+            thank = True
+            id = order.order_id
+            return render(request, 'shop/cheakout.html', {'thank': thank, 'id': id, 'user':name})
+        return render(request,'shop/cheakout.html')
+
+
+
+def orderHistory(request):
+    if request.user.is_authenticated:
+        user = request.user.get_username()
+
+        all_data = Orders.objects.filter(name=user)
+        l1=[]
+        l2=[]
+        for i in all_data:
+            data=json.loads(i.item_json)
+            l1.append(data)
+
+
+
+        return render(request,'shop/orderHistory.html',{'l1':l1,'l2':l2})
+
+
+
+
+
+
+
+
+
+
+
 
 

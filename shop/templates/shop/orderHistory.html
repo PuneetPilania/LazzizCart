@@ -1,8 +1,48 @@
 {% extends 'shop/base.html' %}
 
-{% block title%} Order History {% endblock %}
+{% block title%} My Awesome Cart Tracker{% endblock %}
 {% block body %}
+<div class="container">
 
-{{ all_data.name }}
+    <div class="col my-4">
 
+        <h2>Your Order History</h2>
+        <div class="my-4">
+            <ul class="list-group" id="citems">
+
+                {%for i in l1%}
+                {% for k, v in i.items %}
+                <button type="button" class="btn btn-primary">
+                    Order Id <span class="badge badge-light"></span>
+                </button>
+
+
+
+                <div class="jumbotron">
+  <h2 class="display-4">Product Name : <a href="#" class="badge badge-primary">{{v.1}}</a> </h2>
+  <hr class="my-4">
+                   <h5>Quantity:      {{v.0}}</h5>
+                    <h5>Total Price:  {{v.2}}</h5>
+</div>
+
+                {% endfor %}
+                {% endfor %}
+
+
+
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+
+
+
+
+</script>
 {% endblock %}
