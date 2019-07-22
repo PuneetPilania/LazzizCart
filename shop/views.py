@@ -134,15 +134,15 @@ def orderHistory(request):
         user = request.user.get_username()
 
         all_data = Orders.objects.filter(name=user)
-        l1=[]
-        l2=[]
+        all_data_list=[]
+
         for i in all_data:
             data=json.loads(i.item_json)
-            l1.append(data)
+            all_data_list.append(data)
 
 
 
-        return render(request,'shop/orderHistory.html',{'l1':l1,'l2':l2})
+        return render(request,'shop/orderHistory.html',{'all_data_list':all_data_list,'all_data':all_data,'user':user})
 
 
 

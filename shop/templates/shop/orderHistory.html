@@ -6,14 +6,17 @@
 
     <div class="col my-4">
 
+
         <h2>Your Order History</h2>
         <div class="my-4">
             <ul class="list-group" id="citems">
 
-                {%for i in l1%}
+                {%for i in all_data_list%}
                 {% for k, v in i.items %}
                 <button type="button" class="btn btn-primary">
-                    Order Id <span class="badge badge-light"></span>
+                     <span class="badge badge-light">
+
+                </span>
                 </button>
 
 
